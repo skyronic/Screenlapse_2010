@@ -28,7 +28,19 @@ namespace ScreenLapse
 
 		static void HandleTrayIconPopupMenu (object o, PopupMenuArgs args)
 		{
+			Menu popupMenu = new Menu();
+			ImageMenuItem menuItemQuit = new ImageMenuItem ("Quit");
 			
+			
+			menuItemQuit.Image = new Gtk.Image (Gtk.Stock.Quit, IconSize.Menu);
+			popupMenu.Add(menuItemQuit);
+			
+			menuItemQuit.Activated += delegate(object sender, EventArgs e) {
+				Application.Quit();				
+			};
+			
+			popupMenu.ShowAll();
+			popupMenu.Popup();			
 		}
 	}
 }
