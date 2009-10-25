@@ -53,6 +53,19 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="PreferencesDialog.cs" />
     <Compile Include="gtk-gui\ScreenLapse.PreferencesDialog.cs" />
+    <Compile Include="ScrotDaemon.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="Hierarchical" ResourceNamePolicy="FileFormatDefault" />
+          <TextStylePolicy TabWidth="4" inheritsSet="Mono" inheritsScope="text/plain" scope="text/x-csharp" />
+          <CSharpFormattingPolicy inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <StandardHeader inheritsSet="MITX11License" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
