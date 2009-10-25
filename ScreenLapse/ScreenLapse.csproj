@@ -54,6 +54,7 @@
     <Compile Include="PreferencesDialog.cs" />
     <Compile Include="gtk-gui\ScreenLapse.PreferencesDialog.cs" />
     <Compile Include="ScrotDaemon.cs" />
+    <Compile Include="Preferences.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

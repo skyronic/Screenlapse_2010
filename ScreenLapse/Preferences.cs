@@ -1,5 +1,5 @@
 // 
-// ScrotDaemon.cs
+// Preferences.cs
 //  
 // Author:
 //       Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
@@ -26,66 +26,23 @@
 
 using System;
 
-
 namespace ScreenLapse
 {
 
-	public class ScrotDaemon
+	public static class Preferences
 	{
-		
-		static readonly ScrotDaemon instance = new ScrotDaemon();
-		
-		private System.Timers.Timer timer;
-		
-		public static ScrotDaemon Instance
+		private static int interval = 1;
+		public static int Interval
 		{
-			get { return instance; }
+			get
+			{
+				return interval;
+			}
+			set
+			{
+				interval = value;
+			}
 		}
 		
-		
-		/// <summary>
-		/// Property to check whether screenshots can be taken
-		/// 
-		/// use Activate() and Deactivate() to modify behaviour
-		/// </summary>
-		public bool IsActive
-		{
-			get; private set;
-		}
-		
-		/// <summary>
-		/// Activate the screenshot timer
-		/// </summary>
-		public void Activate()
-		{
-			IsActive = true;
-			timer.Enabled = true;			
-		}
-		
-		/// <summary>
-		/// Deactivate the screenshot timer
-		/// </summary>
-		public void Deactivate()
-		{
-			IsActive = false;
-			timer.Enabled = false;
-		}
-
-		private ScrotDaemon ()
-		{			
-			timer = new System.Timers.Timer();
-			timer.Enabled = false;
-			timer.Elapsed += OnTimerTick;
-			
-			timer.Interval = Preferences.Interval * 1000;
-			
-			GC.KeepAlive(timer); // Prevent the GC from collecting this.
-		}
-
-		void OnTimerTick (object sender, System.Timers.ElapsedEventArgs e)
-		{
-			
-			Console.WriteLine("Timer ticked");
-		}
 	}
 }

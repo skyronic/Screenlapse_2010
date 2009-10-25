@@ -22,8 +22,10 @@ namespace ScreenLapse
 			trayIcon.PopupMenu += HandleTrayIconPopupMenu;
 			trayIcon.Tooltip = "ScreenLapse";
 			
+			// Start the timer class
+			ScrotDaemon.Instance.Activate();
 			win.Show ();
-			Application.Run ();
+			Application.Run ();			
 		}
 
 		static void HandleTrayIconPopupMenu (object o, PopupMenuArgs args)
