@@ -13,7 +13,7 @@ namespace ScreenLapse
 			MainWindow win = new MainWindow ();
 			
 			// Set the tray icon properties and delegates
-			trayIcon = new StatusIcon(new Gdk.Pixbuf("Screenlapse.png"));
+			trayIcon = new StatusIcon(new Gdk.Pixbuf("ScreenlapseIcon.png"));
 			trayIcon.Visible = true;
 			trayIcon.Activate += delegate(object sender, EventArgs e) {
 				// Toggle the visibility of the main window
