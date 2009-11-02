@@ -42,6 +42,11 @@ namespace ScreenLapse
 			{
 				interval = value;
 			}
-		}		
+		}
+		
+		public static int ScalePercentage
+		{
+			get;set;
+		}
 	}
 }
