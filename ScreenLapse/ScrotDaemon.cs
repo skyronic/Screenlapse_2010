@@ -94,7 +94,7 @@ namespace ScreenLapse
 			//string dirName = String.Format("{0}{1}{2}", e.SignalTime.Date.Month.ToString(specifier), e.SignalTime.Date.Day.ToString(specifier), e.SignalTime.Date.Year.ToString(specifier));
 			//string fileName = String.Format("{0}{1}{2}.png", e.SignalTime.Hour.ToString(specifier), e.SignalTime.Minute.ToString(specifier), e.SignalTime.Second.ToString(specifier));
 			
-			string dirName = e.SignalTime.ToString("MMddYYYY");
+			string dirName = e.SignalTime.ToString("MM-dd-yyyy");
 			string fileName = e.SignalTime.ToString("hhmmss");
 			Console.WriteLine("Timer ticked");
 			

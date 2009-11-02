@@ -67,7 +67,7 @@ namespace ScreenLapse
 					DateTime dirDate;
 					try
 					{
-						dirDate = DateTime.Parse(dir, "MMddYYYY");
+						dirDate = DateTime.Parse(dir);
 					}
 					catch
 					{
