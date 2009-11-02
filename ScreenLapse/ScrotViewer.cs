@@ -26,7 +26,7 @@
 
 using System;
 using System.IO;
-
+using Gtk;
 
 namespace ScreenLapse
 {
@@ -37,7 +37,21 @@ namespace ScreenLapse
 		public ScrotViewer () : base(Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
+			
+			// Build the treeview
+			TreeViewColumn dayColumn = new TreeViewColumn();
+			dayColumn.Title = "Day";
+			dayColumn.PackStart(new CellRendererText(), true);
+			
+			dayListStore = new ListStore(typeof(string));
+			
+			dayAvailTreeView.AppendColumn(dayColumn);
+			dayAvailTreeView.Model = dayListStore;
+			
+			ExtractDayPaths();			
 		}
+		
+		ListStore dayListStore;
 		
 		/// <summary>
 		/// Since each day is stored as a different path, this function extracts
@@ -50,15 +64,17 @@ namespace ScreenLapse
 				// TODO: Should we do this by Regexes?
 				if ( dir.Length == 8 ) // our format uses 8 characters
 				{
+					DateTime dirDate;
 					try
 					{
-						DateTime.Parse(dir, "MMddYYYY");
+						dirDate = DateTime.Parse(dir, "MMddYYYY");
 					}
 					catch
 					{
 						continue; // Don't process ahead
 					}
 					
+					dayListStore.AppendValues(dirDate.ToShortDateString());
 				}
 			}
 		}
