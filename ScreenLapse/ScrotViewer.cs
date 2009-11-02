@@ -25,6 +25,8 @@
 // THE SOFTWARE.
 
 using System;
+using System.IO;
+
 
 namespace ScreenLapse
 {
@@ -35,6 +37,30 @@ namespace ScreenLapse
 		public ScrotViewer () : base(Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
+		}
+		
+		/// <summary>
+		/// Since each day is stored as a different path, this function extracts
+		/// all the existing day paths in the applicatoins running path
+		/// </summary>
+		private void ExtractDayPaths()
+		{
+			foreach(string dir in Directory.GetDirectories("."))				
+			{
+				// TODO: Should we do this by Regexes?
+				if ( dir.Length == 8 ) // our format uses 8 characters
+				{
+					try
+					{
+						DateTime.Parse(dir, "MMddYYYY");
+					}
+					catch
+					{
+						continue; // Don't process ahead
+					}
+					
+				}
+			}
 		}
 	}
 }

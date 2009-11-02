@@ -89,8 +89,13 @@ namespace ScreenLapse
 		void OnTimerTick (object sender, System.Timers.ElapsedEventArgs e)
 		{
 			// Set the directory name and file name as [MMDDYYYY/HHMMSS.png]
-			string dirName = String.Format("{0}{1}{2}", e.SignalTime.Date.Month, e.SignalTime.Date.Day, e.SignalTime.Date.Year);
-			string fileName = String.Format("{0}{1}{2}.png", e.SignalTime.Hour, e.SignalTime.Minute, e.SignalTime.Second);
+			string specifier = "D2"; // the format of the integer to be printed out
+			
+			//string dirName = String.Format("{0}{1}{2}", e.SignalTime.Date.Month.ToString(specifier), e.SignalTime.Date.Day.ToString(specifier), e.SignalTime.Date.Year.ToString(specifier));
+			//string fileName = String.Format("{0}{1}{2}.png", e.SignalTime.Hour.ToString(specifier), e.SignalTime.Minute.ToString(specifier), e.SignalTime.Second.ToString(specifier));
+			
+			string dirName = e.SignalTime.ToString("MMddYYYY");
+			string fileName = e.SignalTime.ToString("hhmmss");
 			Console.WriteLine("Timer ticked");
 			
 			// create directory if it doesn't exist
