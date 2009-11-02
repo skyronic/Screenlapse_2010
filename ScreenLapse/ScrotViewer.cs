@@ -1,5 +1,5 @@
 // 
-// Preferences.cs
+// ScrotViewer.cs
 //  
 // Author:
 //       Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
@@ -29,24 +29,12 @@ using System;
 namespace ScreenLapse
 {
 
-	public static class Preferences
+	public partial class ScrotViewer : Gtk.Window
 	{
-		private static int interval = 15;
-		public static int Interval
+
+		public ScrotViewer () : base(Gtk.WindowType.Toplevel)
 		{
-			get
-			{
-				return interval;
-			}
-			set
-			{
-				interval = value;
-			}
-		}
-		
-		public static int ScalePercentage
-		{
-			get;set;
+			this.Build ();
 		}
 	}
 }

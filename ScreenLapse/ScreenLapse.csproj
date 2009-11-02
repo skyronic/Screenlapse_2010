@@ -63,6 +63,8 @@
     <Compile Include="gtk-gui\ScreenLapse.PreferencesDialog.cs" />
     <Compile Include="ScrotDaemon.cs" />
     <Compile Include="Preferences.cs" />
+    <Compile Include="ScrotViewer.cs" />
+    <Compile Include="gtk-gui\ScreenLapse.ScrotViewer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

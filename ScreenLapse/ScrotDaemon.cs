@@ -144,7 +144,6 @@ namespace ScreenLapse
 			bmpScreenShot.Dispose();
 			gfx.Dispose();
 			thumb.Dispose();
-									
 		}
 	}
 }
