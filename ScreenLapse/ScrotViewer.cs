@@ -37,7 +37,6 @@ namespace ScreenLapse
 		public ScrotViewer () : base(Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
-			
 			// Build the treeview
 			TreeViewColumn dayColumn = new TreeViewColumn();
 			dayColumn.Title = "Day";
@@ -59,14 +58,16 @@ namespace ScreenLapse
 		/// </summary>
 		private void ExtractDayPaths()
 		{
-			foreach(string dir in Directory.GetDirectories("."))				
+			foreach(string dir in Directory.GetDirectories("."))
 			{
+				Console.WriteLine("Directory: " + dir);
 				// TODO: Should we do this by Regexes?
 				if ( dir.Length == 8 ) // our format uses 8 characters
 				{
 					DateTime dirDate;
 					try
 					{
+						
 						dirDate = DateTime.Parse(dir);
 					}
 					catch
