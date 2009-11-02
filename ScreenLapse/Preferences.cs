@@ -42,7 +42,6 @@ namespace ScreenLapse
 			{
 				interval = value;
 			}
-		}
-		
+		}		
 	}
 }

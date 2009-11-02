@@ -25,8 +25,8 @@
 // THE SOFTWARE.
 
 using System;
-
-
+using Gnome;
+using System.IO;
 namespace ScreenLapse
 {
 
@@ -84,6 +84,35 @@ namespace ScreenLapse
 
 		void OnTimerTick (object sender, System.Timers.ElapsedEventArgs e)
 		{
+			// Set the directory name and file name as [MMDDYYYY/HHMMSS.png]
+			string dirName = String.Format("{0}{1}{2}", e.SignalTime.Date.Month, e.SignalTime.Date.Day, e.SignalTime.Date.Year);
+			string fileName = String.Format("{0}{1}{2}.png", e.SignalTime.Hour, e.SignalTime.Minute, e.SignalTime.Second);
+			
+			// create directory if it doesn't exist
+			if(!Directory.Exists(dirName))
+			{
+				try
+				{
+					Directory.CreateDirectory(dirName);
+				}
+				catch
+				{
+					// handle error
+				}
+			}
+			string filePath = Path.Combine(dirName, fileName);
+			
+			if(File.Exists(filePath))
+			{
+				try
+				{
+					File.Delete(filePath);
+				}
+				catch
+				{
+					
+				}
+			}
 			
 			Console.WriteLine("Timer ticked");
 		}
