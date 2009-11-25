@@ -10,6 +10,7 @@
 
 namespace ScreenLapse {
     
+    
     public partial class PreferencesDialog {
         
         private Gtk.Table table1;

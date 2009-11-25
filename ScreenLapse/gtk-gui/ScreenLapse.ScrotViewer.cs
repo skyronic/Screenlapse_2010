@@ -10,6 +10,7 @@
 
 namespace ScreenLapse {
     
+    
     public partial class ScrotViewer {
         
         private Gtk.VBox vbox2;

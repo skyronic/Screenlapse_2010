@@ -33,7 +33,6 @@ namespace ScreenLapse
 
 	public partial class ScrotViewer : Gtk.Window
 	{
-
 		public ScrotViewer () : base(Gtk.WindowType.Toplevel)
 		{
 			this.Build ();
@@ -47,7 +46,20 @@ namespace ScreenLapse
 			dayAvailTreeView.AppendColumn(dayColumn);
 			dayAvailTreeView.Model = dayListStore;
 			
-			ExtractDayPaths();			
+			string tempFileName = "11-26-2009/011307.png";
+			if(File.Exists(tempFileName))
+			{
+				Console.WriteLine("File exists");
+				int height = scrotDisplayArea.HeightRequest;
+				int width = scrotDisplayArea.WidthRequest;
+				
+				Gdk.Pixbuf displayPic = new Gdk.Pixbuf(tempFileName,// The file
+				                                       width, height,
+				                                       true); // Preserve the aspect ratio
+				scrotDisplayArea.Pixbuf = displayPic;
+			}
+			
+			ExtractDayPaths();
 		}
 		
 		ListStore dayListStore;

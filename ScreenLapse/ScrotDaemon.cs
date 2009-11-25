@@ -96,6 +96,7 @@ namespace ScreenLapse
 			
 			string dirName = e.SignalTime.ToString("MM-dd-yyyy");
 			string fileName = e.SignalTime.ToString("hhmmss");
+			fileName += ".png";
 			Console.WriteLine("Timer ticked");
 			
 			// create directory if it doesn't exist
