@@ -25,131 +25,164 @@
 // THE SOFTWARE.
 
 using System;
-using Gnome;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing;
 using Gtk;
+using System.Diagnostics;
 
 namespace ScreenLapse
 {
 
 	public class ScrotDaemon
 	{
-		
-		static readonly ScrotDaemon instance = new ScrotDaemon();
-		
+
+		static readonly ScrotDaemon instance = new ScrotDaemon ();
+
 		private System.Timers.Timer timer;
-		
-		public static ScrotDaemon Instance
-		{
+
+		public static ScrotDaemon Instance {
 			get { return instance; }
 		}
-		
-		
+
+
 		/// <summary>
 		/// Property to check whether screenshots can be taken
 		/// 
 		/// use Activate() and Deactivate() to modify behaviour
 		/// </summary>
-		public bool IsActive
-		{
-			get; private set;
-		}
-		
+		public bool IsActive { get; private set; }
+
 		/// <summary>
 		/// Activate the screenshot timer
 		/// </summary>
-		public void Activate()
+		public void Activate ()
 		{
 			IsActive = true;
-			timer.Enabled = true;			
+			timer.Enabled = true;
 		}
-		
+
 		/// <summary>
 		/// Deactivate the screenshot timer
 		/// </summary>
-		public void Deactivate()
+		public void Deactivate ()
 		{
 			IsActive = false;
 			timer.Enabled = false;
 		}
 
 		private ScrotDaemon ()
-		{			
-			timer = new System.Timers.Timer();
+		{
+			timer = new System.Timers.Timer ();
 			timer.Enabled = false;
 			timer.Elapsed += OnTimerTick;
 			
-			timer.Interval = Preferences.Interval * 1000;
+			timer.Interval = Preferences.Interval;
 			
-			GC.KeepAlive(timer); // Prevent the GC from collecting this.
+			GC.KeepAlive (timer);
 		}
+		
 
 		void OnTimerTick (object sender, System.Timers.ElapsedEventArgs e)
 		{
 			// Set the directory name and file name as [MMDDYYYY/HHMMSS.png]
-			string specifier = "D2"; // the format of the integer to be printed out
+			// the format of the integer to be printed out
 			
 			//string dirName = String.Format("{0}{1}{2}", e.SignalTime.Date.Month.ToString(specifier), e.SignalTime.Date.Day.ToString(specifier), e.SignalTime.Date.Year.ToString(specifier));
 			//string fileName = String.Format("{0}{1}{2}.png", e.SignalTime.Hour.ToString(specifier), e.SignalTime.Minute.ToString(specifier), e.SignalTime.Second.ToString(specifier));
 			
-			string dirName = e.SignalTime.ToString("MM-dd-yyyy");
-			string fileName = e.SignalTime.ToString("hhmmss");
+			Console.WriteLine ("Timer ticked");
+			// check whether there has been any idleness
+			ProcessStartInfo procInfo;
+			Process proc;
+			procInfo = new ProcessStartInfo("xprintidle");
+			
+
+			Process proc2 = new Process();
+			proc2.StartInfo.FileName = "xprintidle";
+			proc2.StartInfo.UseShellExecute = false;
+			proc2.StartInfo.RedirectStandardOutput = true;
+			//proc2.OutputDataReceived += HandleProcOutputDataReceived;
+			//proc2.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			proc2.Start();
+			string output = proc2.StandardOutput.ReadToEnd();
+			proc2.WaitForExit();
+			
+			// Now actually take the screenshot
+			int idleTime;
+			string dirName = DateTime.Now.ToString ("MM-dd-yyyy");
+			string fileName = DateTime.Now.ToString ("hhmmss");
 			fileName += ".png";
-			Console.WriteLine("Timer ticked");
 			
-			// create directory if it doesn't exist
-			if(!Directory.Exists(dirName))
+			if(!Int32.TryParse (output.Split("\n".ToCharArray())[0], out idleTime))
 			{
-				try
-				{
-					Directory.CreateDirectory(dirName);
-				}
-				catch
-				{
-					// handle error
-				}
-			}
-			string filePath = Path.Combine(dirName, fileName);
-			
-			if(File.Exists(filePath))
-			{
-				try
-				{
-					File.Delete(filePath);
-				}
-				catch
-				{
-					
-				}
+				// TODO: show an error now
+				//Gtk.MessageDialog error = new Gtk.MessageDialog(null, null, MessageType.Error, ButtonsType.Ok, false, "xprintidle is missing");
+				
+				// gracefully exit
+				Console.WriteLine ("Unable to parse");
+				throw new InvalidDataException("Unable to parse xprintidle output");
 			}
 			
-			Console.WriteLine(filePath);
+			Console.WriteLine ("idletime is {0}", idleTime);
 			
-			// Take the screenshot			
-			int screenWidth = Gdk.Screen.Default.Width;
-			int screenHeight = Gdk.Screen.Default.Height;
+			if(idleTime > Preferences.Interval + 1000)
+			{
+				// ignore. idle
+				Console.WriteLine ("Ignoring because of idleness");
+				return;
+			}
 			
-			Console.WriteLine("Scroting for {0}x{1}", screenWidth, screenHeight);
 			
-			Bitmap bmpScreenShot = new Bitmap (screenWidth, screenHeight);
-			Graphics gfx = Graphics.FromImage ((System.Drawing.Image)bmpScreenShot);
-			gfx.CopyFromScreen (0, 0, 0, 0, new Size (screenWidth, screenHeight));
-			
-			// Create a thumbnailed version of the screenshot
-			Preferences.ScalePercentage = 80;
-			int thumbWidth = (int)((double)screenWidth * ((double)Preferences.ScalePercentage / (double)100));
-			int thumbHeight = (int)((double)screenHeight * ((double)Preferences.ScalePercentage / (double)100));
-			
-			Console.WriteLine("Scroting for {0}x{1}", thumbWidth, thumbHeight);
-			System.Drawing.Image thumb = bmpScreenShot.GetThumbnailImage(thumbWidth, thumbHeight, null, IntPtr.Zero);
-			thumb.Save (filePath, ImageFormat.Png);
-			
-			// Clean up
-			bmpScreenShot.Dispose();
-			gfx.Dispose();
-			thumb.Dispose();
+			if (Preferences.Enabled) {
+				
+				// create directory if it doesn't exist
+				if (!Directory.Exists (dirName)) {
+					try {
+						Directory.CreateDirectory (dirName);
+					} catch {
+						// handle error
+					}
+				}
+				string filePath = Path.Combine (dirName, fileName);
+				
+				if (File.Exists (filePath)) {
+					try {
+						File.Delete (filePath);
+					} catch {
+						
+					}
+				}
+				
+				Console.WriteLine (filePath);
+				
+				// Take the screenshot			
+				int screenWidth = Gdk.Screen.Default.Width;
+				int screenHeight = Gdk.Screen.Default.Height;
+				
+				Console.WriteLine ("Scroting for {0}x{1}", screenWidth, screenHeight);
+				
+				Bitmap bmpScreenShot = new Bitmap (screenWidth, screenHeight);
+				Graphics gfx = Graphics.FromImage ((System.Drawing.Image)bmpScreenShot);
+				gfx.CopyFromScreen (0, 0, 0, 0, new Size (screenWidth, screenHeight));
+				
+				// Create a thumbnailed version of the screenshot
+				Preferences.ScalePercentage = 80;
+				int thumbWidth = (int)((double)screenWidth * ((double)Preferences.ScalePercentage / (double)100));
+				int thumbHeight = (int)((double)screenHeight * ((double)Preferences.ScalePercentage / (double)100));
+				
+				Console.WriteLine ("Scroting for {0}x{1}", thumbWidth, thumbHeight);
+				System.Drawing.Image thumb = bmpScreenShot.GetThumbnailImage (thumbWidth, thumbHeight, null, IntPtr.Zero);
+				thumb.Save (filePath, ImageFormat.Png);
+				
+				// Clean up
+				bmpScreenShot.Dispose ();
+				gfx.Dispose ();
+				thumb.Dispose ();
+			}
+			else {
+				Console.WriteLine ("Dry run!");
+			}
 		}
 	}
 }

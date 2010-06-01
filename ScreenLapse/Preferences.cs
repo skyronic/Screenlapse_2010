@@ -31,22 +31,24 @@ namespace ScreenLapse
 
 	public static class Preferences
 	{
-		private static int interval = 15;
 		public static int Interval
-		{
-			get
-			{
-				return interval;
-			}
-			set
-			{
-				interval = value;
-			}
-		}
-		
+		{get;set;}
 		public static int ScalePercentage
 		{
-			get;set;
+			get; set;
+		}
+		
+		public static bool Enabled
+		{ get; set; }
+		
+		public static void Initialize ()
+		{
+			// Set the defaults
+			// TODO: change values back from debug versions
+			Console.WriteLine ("Initializing preferences");
+			Enabled = false;
+			ScalePercentage = 50;
+			Interval = 5000;
 		}
 	}
 }

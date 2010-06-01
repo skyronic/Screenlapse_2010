@@ -7,7 +7,6 @@
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/ScreenLapse.exe" internal="true" />
-    <widget-library name="gnomedesktop-sharp, Version=2.20.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </import>
   <icon-factory>
     <icon-set id="Screenlapse">
@@ -347,8 +346,6 @@
                 <child>
                   <widget class="Gtk.Image" id="scrotDisplayArea">
                     <property name="MemberName" />
-                    <property name="WidthRequest">603</property>
-                    <property name="HeightRequest">451</property>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -381,6 +378,7 @@
                         <property name="Upper">100</property>
                         <property name="PageIncrement">10</property>
                         <property name="StepIncrement">1</property>
+                        <property name="Value">100</property>
                         <property name="DrawValue">True</property>
                         <property name="Digits">0</property>
                         <property name="ValuePos">Top</property>
