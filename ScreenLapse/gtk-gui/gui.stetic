@@ -307,7 +307,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="ScreenLapse.ScrotViewer" design-size="776 582">
+  <widget class="Gtk.Window" id="ScreenLapse.ScrotViewer" design-size="785 582">
     <property name="MemberName" />
     <property name="Title" translatable="yes">ScrotViewer</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -344,12 +344,16 @@
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.Image" id="scrotDisplayArea">
+                  <widget class="Gtk.HBox" id="hbox3">
                     <property name="MemberName" />
+                    <property name="Spacing">6</property>
+                    <child>
+                      <placeholder />
+                    </child>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
-                    <property name="AutoSize">False</property>
+                    <property name="AutoSize">True</property>
                   </packing>
                 </child>
                 <child>
@@ -400,16 +404,12 @@
               <packing>
                 <property name="Position">1</property>
                 <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="Position">0</property>
             <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
           </packing>
         </child>
         <child>

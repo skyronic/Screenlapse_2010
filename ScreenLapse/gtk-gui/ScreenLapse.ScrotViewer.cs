@@ -14,7 +14,7 @@ namespace ScreenLapse
 
 		private global::Gtk.VBox vbox3;
 
-		private global::Gtk.Image scrotDisplayArea;
+		private global::Gtk.HBox hbox3;
 
 		private global::Gtk.HBox hbox2;
 
@@ -57,10 +57,11 @@ namespace ScreenLapse
 			this.vbox3.Name = "vbox3";
 			this.vbox3.Spacing = 6;
 			// Container child vbox3.Gtk.Box+BoxChild
-			this.scrotDisplayArea = new global::Gtk.Image ();
-			this.scrotDisplayArea.Name = "scrotDisplayArea";
-			this.vbox3.Add (this.scrotDisplayArea);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.scrotDisplayArea]));
+			this.hbox3 = new global::Gtk.HBox ();
+			this.hbox3.Name = "hbox3";
+			this.hbox3.Spacing = 6;
+			this.vbox3.Add (this.hbox3);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox3]));
 			w3.Position = 0;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.hbox2 = new global::Gtk.HBox ();
@@ -99,18 +100,14 @@ namespace ScreenLapse
 			this.hbox1.Add (this.vbox3);
 			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox3]));
 			w7.Position = 1;
-			w7.Expand = false;
-			w7.Fill = false;
 			this.vbox2.Add (this.hbox1);
 			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox1]));
 			w8.Position = 0;
-			w8.Expand = false;
-			w8.Fill = false;
 			this.Add (this.vbox2);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 776;
+			this.DefaultWidth = 785;
 			this.DefaultHeight = 582;
 			this.Show ();
 		}

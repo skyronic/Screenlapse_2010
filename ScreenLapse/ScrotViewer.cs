@@ -56,16 +56,16 @@ namespace ScreenLapse
 			string tempFileName = "11-26-2009/011307.png";
 			if (File.Exists (tempFileName)) {
 				Console.WriteLine ("File exists");
-				int height = scrotDisplayArea.HeightRequest;
-				int width = scrotDisplayArea.WidthRequest;
-				Console.WriteLine ("{0}x{1}", height, width);
+				//int height = scrotDisplayArea.HeightRequest;
+				//int width = scrotDisplayArea.WidthRequest;
+				//Console.WriteLine ("{0}x{1}", height, width);
 				
 				
 				
 				// The file
-				Gdk.Pixbuf displayPic = new Gdk.Pixbuf (tempFileName, width, height, true);
+				//Gdk.Pixbuf displayPic = new Gdk.Pixbuf (tempFileName, width, height, true);
 				// Preserve the aspect ratio
-				scrotDisplayArea.Pixbuf = displayPic;
+				//scrotDisplayArea.Pixbuf = displayPic;
 				
 			}
 			this.ResizeMode = ResizeMode.Immediate;
@@ -107,26 +107,7 @@ namespace ScreenLapse
 				try {
 					string filename = currentFileNames[index];
 					if (File.Exists (filename)) {
-						
-						int height, width;
-						scrotDisplayArea.GetSizeRequest (out width, out height);
-						// make sure we store a reference to the old image so we can dispose it after
-						// the image has changed, rather than relying on the GC to come, which can result in
-						// memory leaks
-						Pixbuf oldImage = null;
-						if (scrotDisplayArea.Pixbuf != null) {
-							oldImage = scrotDisplayArea.Pixbuf;
-						}
-						Console.WriteLine ("The h, w are : {0}, {1}", height, width);
-						string fullpath = System.IO.Path.GetFullPath (filename);
-						Console.WriteLine ("displaying {0}", fullpath);
-						// The file
-						Gdk.Pixbuf displayPic = new Gdk.Pixbuf (fullpath);
-						// Preserve the aspect ratio
-						scrotDisplayArea.Pixbuf = displayPic;
-						
-						//if(oldImage != null)
-						//	oldImage.Dispose();
+						DrawImageInWindow(filename);
 					}
 				} catch (Exception ex) {
 					Console.WriteLine ("Something broke with exception: " + ex.Message);
@@ -136,6 +117,41 @@ namespace ScreenLapse
 		}
 
 		List<string> currentFileNames;
+		
+		
+		/// <summary>
+		/// Placeholder method to draw the existing filename inside the window.
+		/// 
+		/// Currently, we are using a method where we create a new HBox and stuff
+		/// the image widget there and remove the old widget, which is technically overkill
+		/// but since this behaves somewhat like a double buffer, it should make the overall
+		/// experience smoother.
+		/// </summary>
+		/// <param name="filename">
+		/// A <see cref="System.String"/>
+		/// </param>
+		void DrawImageInWindow(string filename)
+		{
+			// Create the new image widget and draw it being hidden
+			try {
+				Console.WriteLine ("Drawing image inside window");
+				Gtk.Image drawTarget = new Gtk.Image(filename);
+				drawTarget.Hide();
+				
+				foreach(Widget child in hbox3.Children)
+				{
+					// remove all existing children
+					hbox3.Remove(child);
+					child.Dispose();
+				}
+				drawTarget.Show();
+				hbox3.PackStart(drawTarget, true, true, 0);
+				
+			} catch (Exception ex) {
+				Console.WriteLine ("something went wrong. " + ex.Message);
+			}	
+			
+		}
 
 		void DayAvailRowActivated (object o, RowActivatedArgs args)
 		{
