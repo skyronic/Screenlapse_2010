@@ -35,6 +35,9 @@ namespace ScreenLapse
 
 	public partial class ScrotViewer : Gtk.Window
 	{
+		
+		public bool IsPlaying{get;set;}
+		public System.Timers.Timer playTimer;
 		public ScrotViewer () : base(Gtk.WindowType.Toplevel)
 		{
 			// Initialize members
@@ -52,22 +55,6 @@ namespace ScreenLapse
 			
 			dayAvailTreeView.AppendColumn (dayColumn);
 			dayAvailTreeView.Model = dayListStore;
-			
-			string tempFileName = "11-26-2009/011307.png";
-			if (File.Exists (tempFileName)) {
-				Console.WriteLine ("File exists");
-				//int height = scrotDisplayArea.HeightRequest;
-				//int width = scrotDisplayArea.WidthRequest;
-				//Console.WriteLine ("{0}x{1}", height, width);
-				
-				
-				
-				// The file
-				//Gdk.Pixbuf displayPic = new Gdk.Pixbuf (tempFileName, width, height, true);
-				// Preserve the aspect ratio
-				//scrotDisplayArea.Pixbuf = displayPic;
-				
-			}
 			this.ResizeMode = ResizeMode.Immediate;
 			ExtractDayPaths ();
 			
@@ -77,6 +64,28 @@ namespace ScreenLapse
 			// handle the time slider
 			timeSlider.ValueChanged += RedrawImage;
 			ImageArmed = false;
+			
+			playPauseButton.Clicked += StartPlayPause;
+			playTimer = new System.Timers.Timer();
+			playTimer.Interval = 500;
+			
+			playTimer.Elapsed += ImageFrameChangeTimerTick;
+		}
+
+		void ImageFrameChangeTimerTick (object sender, System.Timers.ElapsedEventArgs e)
+		{
+			timeSlider.Value += 1;
+		}
+
+		void StartPlayPause (object sender, EventArgs e)
+		{
+			if(playTimer.Enabled)
+			{
+				playTimer.Stop();
+			}
+			else {
+				playTimer.Start();
+			}
 		}
 		bool ImageArmed;
 
