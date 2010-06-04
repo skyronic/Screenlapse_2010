@@ -39,42 +39,46 @@ namespace ScreenLapse
 		{
 			// Initialize members
 			
-			validDirectories = new List<string>();
+			validDirectories = new List<string> ();
 			this.Build ();
 			// Build the treeview
-			TreeViewColumn dayColumn = new TreeViewColumn();
+			TreeViewColumn dayColumn = new TreeViewColumn ();
 			dayColumn.Title = "Day";
-			CellRendererText textRenderer = new CellRendererText();
-			dayColumn.PackStart(textRenderer, true);
-			dayColumn.AddAttribute(textRenderer, "text", 0);
+			CellRendererText textRenderer = new CellRendererText ();
+			dayColumn.PackStart (textRenderer, true);
+			dayColumn.AddAttribute (textRenderer, "text", 0);
 			
-			dayListStore = new ListStore(typeof(string));
+			dayListStore = new ListStore (typeof(string));
 			
-			dayAvailTreeView.AppendColumn(dayColumn);
+			dayAvailTreeView.AppendColumn (dayColumn);
 			dayAvailTreeView.Model = dayListStore;
 			
 			string tempFileName = "11-26-2009/011307.png";
-			if(File.Exists(tempFileName))
-			{
-				Console.WriteLine("File exists");
+			if (File.Exists (tempFileName)) {
+				Console.WriteLine ("File exists");
 				int height = scrotDisplayArea.HeightRequest;
 				int width = scrotDisplayArea.WidthRequest;
+				Console.WriteLine ("{0}x{1}", height, width);
 				
-				Gdk.Pixbuf displayPic = new Gdk.Pixbuf(tempFileName,// The file
-				                                       width, height,
-				                                       true); // Preserve the aspect ratio
+				
+				
+				// The file
+				Gdk.Pixbuf displayPic = new Gdk.Pixbuf (tempFileName, width, height, true);
+				// Preserve the aspect ratio
 				scrotDisplayArea.Pixbuf = displayPic;
 				
 			}
 			this.ResizeMode = ResizeMode.Immediate;
-			ExtractDayPaths();
+			ExtractDayPaths ();
 			
 			// handle tree activate
 			dayAvailTreeView.RowActivated += DayAvailRowActivated;
 			
 			// handle the time slider
 			timeSlider.ValueChanged += RedrawImage;
+			ImageArmed = false;
 		}
+		bool ImageArmed;
 
 		/// <summary>
 		/// Callback from the time slider widget. Redraws the appropriate image on the screen
@@ -90,117 +94,112 @@ namespace ScreenLapse
 		/// </param>
 		void RedrawImage (object sender, EventArgs e)
 		{
-			// get the index of the slider
-			int index = (int)timeSlider.Value;
-			
-			// check if the currentfilenames has an index which corresponds to this
-			if(currentFileNames == null)
-				return;
-			if(currentFileNames.Count < index)
-				return;
-			
-			try {
-				string filename = currentFileNames[index];
-				if (File.Exists(filename)) {
-					
-				int height = scrotDisplayArea.HeightRequest;
-				int width = scrotDisplayArea.WidthRequest;
-					
-					// make sure we store a reference to the old image so we can dispose it after
-					// the image has changed, rather than relying on the GC to come, which can result in
-					// memory leaks
-					Pixbuf oldImage = null;
-					if(scrotDisplayArea.Pixbuf != null)
-					{
-						oldImage = scrotDisplayArea.Pixbuf;
+			if (ImageArmed) {
+				// get the index of the slider
+				int index = (int)timeSlider.Value;
+				
+				// check if the currentfilenames has an index which corresponds to this
+				if (currentFileNames == null)
+					return;
+				if (currentFileNames.Count < index)
+					return;
+				
+				try {
+					string filename = currentFileNames[index];
+					if (File.Exists (filename)) {
+						
+						int height, width;
+						scrotDisplayArea.GetSizeRequest (out width, out height);
+						// make sure we store a reference to the old image so we can dispose it after
+						// the image has changed, rather than relying on the GC to come, which can result in
+						// memory leaks
+						Pixbuf oldImage = null;
+						if (scrotDisplayArea.Pixbuf != null) {
+							oldImage = scrotDisplayArea.Pixbuf;
+						}
+						Console.WriteLine ("The h, w are : {0}, {1}", height, width);
+						string fullpath = System.IO.Path.GetFullPath (filename);
+						Console.WriteLine ("displaying {0}", fullpath);
+						// The file
+						Gdk.Pixbuf displayPic = new Gdk.Pixbuf (fullpath);
+						// Preserve the aspect ratio
+						scrotDisplayArea.Pixbuf = displayPic;
+						
+						//if(oldImage != null)
+						//	oldImage.Dispose();
 					}
-					Gdk.Pixbuf displayPic = new Gdk.Pixbuf(filename,// The file
-				                                       width, height,
-				                                       true); // Preserve the aspect ratio
-					scrotDisplayArea.Pixbuf = displayPic;
-					
-					if(oldImage != null)
-						oldImage.Dispose();
-				}				
-			} catch (Exception ex) {
-				Console.WriteLine ("Something broke with exception: " + ex.Message);
-				return;
+				} catch (Exception ex) {
+					Console.WriteLine ("Something broke with exception: " + ex.Message);
+					return;
+				}
 			}
 		}
-		
+
 		List<string> currentFileNames;
 
 		void DayAvailRowActivated (object o, RowActivatedArgs args)
 		{
 			// find the current day path			
-			if(currentFileNames  != null)
-			{
-				currentFileNames.Clear();
-			}
-			else {
-				currentFileNames = new List<string>();
+			if (currentFileNames != null) {
+				currentFileNames.Clear ();
+			} else {
+				currentFileNames = new List<string> ();
 			}
 			currentDayPath = validDirectories[args.Path.Indices[0]];
-			Console.WriteLine ("The current active directory is:" + currentDayPath);
 			
 			// Iterate over all the files in currentDayPath
-			foreach(string filename in Directory.GetFiles(currentDayPath))
-			{
+			foreach (string filename in Directory.GetFiles (currentDayPath)) {
 				Console.WriteLine (filename);
-				Console.WriteLine ("The extracted filename is {0} and extension is {1}", System.IO.Path.GetExtension(filename), System.IO.Path.GetFileNameWithoutExtension(filename).Length);
-				if(System.IO.Path.GetExtension(filename) == ".png" && System.IO.Path.GetFileNameWithoutExtension(filename).Length == 6)
-				{
-					currentFileNames.Add(filename);
-					Console.WriteLine ("Found a valid filename: {0}", filename);
+				if (System.IO.Path.GetExtension (filename) == ".png" && System.IO.Path.GetFileNameWithoutExtension (filename).Length == 6) {
+					currentFileNames.Add (filename);
 				}
 			}
-			Console.WriteLine ("The count of currentfilenames is: " + currentFileNames.Count.ToString());
+			Console.WriteLine ("The count of currentfilenames is: " + currentFileNames.Count.ToString ());
 			// set up the slider
-			if(currentFileNames.Count != 0)
-			{
-			timeSlider.SetRange(0, currentFileNames.Count);
-			timeSlider.Value = 0;
-			}
-			else{
-				timeSlider.SetRange(0, 1);
+			if (currentFileNames.Count != 0) {
+				timeSlider.SetRange (0, currentFileNames.Count);
+				timeSlider.Value = 1;
+				
+				ImageArmed = true;
+			} else {
+				timeSlider.SetRange (0, 1);
+				ImageArmed = false;
 				timeSlider.Value = 0;
 			}
+			
 		}
-		
+
 		ListStore dayListStore;
-		
+
 		List<string> validDirectories;
 		string currentDayPath;
-		
+
 		/// <summary>
 		/// Since each day is stored as a different path, this function extracts
 		/// all the existing day paths in the applicatoins running path
 		/// </summary>
-		public void ExtractDayPaths()
+		public void ExtractDayPaths ()
 		{
-			foreach(string dir in Directory.GetDirectories("."))
-			{
-			int x;
+			foreach (string dir in Directory.GetDirectories (".")) {
+				int x;
 				// TODO: Should we do this by Regexes?
-				if ( dir.Length == 12 ) // our format uses 12 characters
-				{
-				Console.WriteLine("Directory: " + dir);
-					string dirTrimmed = dir.TrimStart("./".ToCharArray());
+				// our format uses 12 characters
+				if (dir.Length == 12) {
+					Console.WriteLine ("Directory: " + dir);
+					string dirTrimmed = dir.TrimStart ("./".ToCharArray ());
 					DateTime dirDate;
-					Console.WriteLine("The final dir is:" + dirTrimmed);
-					try
-					{
-						dirDate = DateTime.Parse(dirTrimmed);
+					Console.WriteLine ("The final dir is:" + dirTrimmed);
+					try {
+						dirDate = DateTime.Parse (dirTrimmed);
+					} catch {
+						Console.WriteLine ("Datetime parsing failed");
+						continue;
+						// Don't process ahead
 					}
-					catch
-					{
-						Console.WriteLine("Datetime parsing failed");
-						continue; // Don't process ahead
-					}
-					Console.WriteLine("The date is {0}", dirDate.ToString());					                  
-					dayListStore.AppendValues(dirDate.ToShortDateString());
+					Console.WriteLine ("The date is {0}", dirDate.ToString ());
+					dayListStore.AppendValues (dirDate.ToShortDateString ());
 					
-					validDirectories.Add(dir);
+					validDirectories.Add (dir);
 				}
 			}
 		}
