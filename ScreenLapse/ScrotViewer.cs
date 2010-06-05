@@ -170,13 +170,13 @@ namespace ScreenLapse
 			} else {
 				currentFileNames = new List<string> ();
 			}
-			currentDayPath = validDirectories[args.Path.Indices[0]];
+			currentDayPath = Path.Combine(Preferences.SavePath, validDirectories[args.Path.Indices[0]]);
 			
 			// Iterate over all the files in currentDayPath
 			foreach (string filename in Directory.GetFiles (currentDayPath)) {
 				Console.WriteLine (filename);
 				if (System.IO.Path.GetExtension (filename) == ".png" && System.IO.Path.GetFileNameWithoutExtension (filename).Length == 6) {
-					currentFileNames.Add (filename);
+					currentFileNames.Add (System.IO.Path.GetFullPath(filename));
 				}
 			}
 			Console.WriteLine ("The count of currentfilenames is: " + currentFileNames.Count.ToString ());
@@ -205,7 +205,7 @@ namespace ScreenLapse
 		/// </summary>
 		public void ExtractDayPaths ()
 		{
-			foreach (string dir in Directory.GetDirectories (".")) {
+			foreach (string dir in Directory.GetDirectories (Preferences.SavePath)) {
 				int x;
 				// TODO: Should we do this by Regexes?
 				// our format uses 12 characters

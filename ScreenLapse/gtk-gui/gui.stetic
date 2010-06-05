@@ -284,6 +284,7 @@
             <property name="StockId">gtk-cancel</property>
             <property name="ResponseId">-6</property>
             <signal name="Activated" handler="ClosePref" />
+            <signal name="Clicked" handler="ClosePref" />
             <property name="label">gtk-cancel</property>
           </widget>
           <packing>
@@ -301,6 +302,7 @@
             <property name="StockId">gtk-ok</property>
             <property name="ResponseId">-5</property>
             <signal name="Activated" handler="SavePrefAndClose" />
+            <signal name="Clicked" handler="SavePrefAndClose" />
             <property name="label">gtk-ok</property>
           </widget>
           <packing>

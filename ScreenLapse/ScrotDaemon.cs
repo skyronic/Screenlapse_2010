@@ -146,6 +146,9 @@ namespace ScreenLapse
 				}
 				string filePath = Path.Combine (dirName, fileName);
 				
+				// append the filepath to the save path in preferences
+				filePath = Path.Combine (Preferences.SavePath, filePath);
+					
 				if (File.Exists (filePath)) {
 					try {
 						File.Delete (filePath);
@@ -167,7 +170,6 @@ namespace ScreenLapse
 				gfx.CopyFromScreen (0, 0, 0, 0, new Size (screenWidth, screenHeight));
 				
 				// Create a thumbnailed version of the screenshot
-				Preferences.ScalePercentage = 80;
 				int thumbWidth = (int)((double)screenWidth * ((double)Preferences.ScalePercentage / (double)100));
 				int thumbHeight = (int)((double)screenHeight * ((double)Preferences.ScalePercentage / (double)100));
 				
