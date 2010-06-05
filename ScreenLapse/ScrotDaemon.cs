@@ -137,9 +137,10 @@ namespace ScreenLapse
 			if (Preferences.Enabled) {
 				
 				// create directory if it doesn't exist
-				if (!Directory.Exists (dirName)) {
+				string fullDirPath = System.IO.Path.Combine(Preferences.SavePath, dirName);
+				if (!Directory.Exists (fullDirPath)) {
 					try {
-						Directory.CreateDirectory (dirName);
+						Directory.CreateDirectory (fullDirPath);
 					} catch {
 						// handle error
 					}

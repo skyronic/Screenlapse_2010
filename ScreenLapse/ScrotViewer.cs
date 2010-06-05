@@ -206,12 +206,18 @@ namespace ScreenLapse
 		public void ExtractDayPaths ()
 		{
 			foreach (string dir in Directory.GetDirectories (Preferences.SavePath)) {
-				int x;
 				// TODO: Should we do this by Regexes?
 				// our format uses 12 characters
-				if (dir.Length == 12) {
-					Console.WriteLine ("Directory: " + dir);
-					string dirTrimmed = dir.TrimStart ("./".ToCharArray ());
+				
+				// ugly ugly hack
+				string[] pathPieces = dir.Split("/".ToCharArray());
+				
+				
+				string directoryName = pathPieces[pathPieces.Length - 1];
+				Console.WriteLine ("The extracted name is:" + directoryName);
+				if (directoryName.Length == 10) {
+					Console.WriteLine ("Directory: " + directoryName);
+					string dirTrimmed = directoryName;
 					DateTime dirDate;
 					Console.WriteLine ("The final dir is:" + dirTrimmed);
 					try {
@@ -224,7 +230,7 @@ namespace ScreenLapse
 					Console.WriteLine ("The date is {0}", dirDate.ToString ());
 					dayListStore.AppendValues (dirDate.ToShortDateString ());
 					
-					validDirectories.Add (dir);
+					validDirectories.Add (directoryName);
 				}
 			}
 		}
