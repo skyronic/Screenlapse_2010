@@ -170,7 +170,7 @@ namespace ScreenLapse
 			} else {
 				currentFileNames = new List<string> ();
 			}
-			currentDayPath = Path.Combine(Preferences.SavePath, validDirectories[args.Path.Indices[0]]);
+			currentDayPath = System.IO.Path.Combine(Preferences.SavePath, validDirectories[args.Path.Indices[0]]);
 			
 			// Iterate over all the files in currentDayPath
 			foreach (string filename in Directory.GetFiles (currentDayPath)) {

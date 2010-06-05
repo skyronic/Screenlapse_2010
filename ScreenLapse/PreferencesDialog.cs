@@ -27,7 +27,7 @@ namespace ScreenLapse
 		protected virtual void SavePrefAndClose (object sender, System.EventArgs e)
 		{
 			Console.WriteLine ("Saving preferences");
-			Preferences.SavePath = filechooserbutton2.CurrentFolder;
+			//Preferences.SavePath = filechooserbutton2.CurrentFolder;
 			Preferences.Interval = (int)spinbutton1.Value;
 			Preferences.ScalePercentage = (int)spinbutton2.Value;
 			Preferences.PlaybackDelay = (int)spinbutton3.Value;

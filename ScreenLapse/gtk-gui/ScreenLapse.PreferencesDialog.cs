@@ -88,7 +88,7 @@ namespace ScreenLapse
 			w6.XOptions = ((global::Gtk.AttachOptions)(4));
 			w6.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spinbutton1 = new global::Gtk.SpinButton (0, 100, 1);
+			this.spinbutton1 = new global::Gtk.SpinButton (0, 100000, 1);
 			this.spinbutton1.CanFocus = true;
 			this.spinbutton1.Name = "spinbutton1";
 			this.spinbutton1.Adjustment.PageIncrement = 10;
@@ -118,7 +118,7 @@ namespace ScreenLapse
 			w8.XOptions = ((global::Gtk.AttachOptions)(4));
 			w8.YOptions = ((global::Gtk.AttachOptions)(4));
 			// Container child table1.Gtk.Table+TableChild
-			this.spinbutton3 = new global::Gtk.SpinButton (0, 100, 1);
+			this.spinbutton3 = new global::Gtk.SpinButton (0, 50000, 1);
 			this.spinbutton3.CanFocus = true;
 			this.spinbutton3.Name = "spinbutton3";
 			this.spinbutton3.Adjustment.PageIncrement = 10;
