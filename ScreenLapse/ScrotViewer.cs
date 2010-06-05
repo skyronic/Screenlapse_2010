@@ -67,7 +67,7 @@ namespace ScreenLapse
 			
 			playPauseButton.Clicked += StartPlayPause;
 			playTimer = new System.Timers.Timer();
-			playTimer.Interval = 500;
+			playTimer.Interval = Preferences.PlaybackDelay;
 			
 			playTimer.Elapsed += ImageFrameChangeTimerTick;
 		}

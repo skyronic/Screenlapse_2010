@@ -61,7 +61,7 @@ namespace ScreenLapse
 			IsActive = true;
 			timer.Enabled = true;
 		}
-
+		
 		/// <summary>
 		/// Deactivate the screenshot timer
 		/// </summary>
@@ -91,7 +91,9 @@ namespace ScreenLapse
 			//string dirName = String.Format("{0}{1}{2}", e.SignalTime.Date.Month.ToString(specifier), e.SignalTime.Date.Day.ToString(specifier), e.SignalTime.Date.Year.ToString(specifier));
 			//string fileName = String.Format("{0}{1}{2}.png", e.SignalTime.Hour.ToString(specifier), e.SignalTime.Minute.ToString(specifier), e.SignalTime.Second.ToString(specifier));
 			
-			Console.WriteLine ("Timer ticked");
+			// update the timer
+			timer.Interval = Preferences.Interval;
+			
 			// check whether there has been any idleness
 			ProcessStartInfo procInfo;
 			Process proc;
