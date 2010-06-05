@@ -25,30 +25,75 @@
 // THE SOFTWARE.
 
 using System;
+using GConf;
+
 
 namespace ScreenLapse
 {
 
 	public static class Preferences
 	{
-		public static int Interval
-		{get;set;}
-		public static int ScalePercentage
+
+		static Client client;
+
+		static string appName = "/apps/screenlapse/";
+
+		static string intervalKey = appName + "interval";
+		public static int Interval { get; set; }
+
+		static string scaleKey = appName + "scale";
+		public static int ScalePercentage { get; set; }
+
+		static string playbackDelayKey = appName + "playbackDelay";
+		public static int PlaybackDelay { get; set; }
+
+		static string savePathKey = appName + "savePath";
+		public static string SavePath { get; set; }
+
+		public static bool Enabled { get; set; }
+
+		public static void ReadFromGConf ()
 		{
-			get; set;
+			try {
+				Interval = (int)client.Get (intervalKey);
+				ScalePercentage = (int)client.Get (scaleKey);
+				PlaybackDelay = (int)client.Get (playbackDelayKey);
+				SavePath = (string)client.Get (savePathKey);
+				return;
+			} catch (GConf.NoSuchKeyException e) {
+				Console.WriteLine ("Error: A key with that name doesn't exist.");
+			} catch (System.InvalidCastException e) {
+				Console.WriteLine ("Error: Cannot typecast.");
+			} catch (Exception ex) {
+				Console.WriteLine ("Some other error. " + ex.Message);
+			}
+				Enabled = false;
+				ScalePercentage = 50;
+				Interval = 5000;
+				PlaybackDelay = 500;
+			SavePath = "/tmp";
+			WriteToGConf();
 		}
 		
-		public static bool Enabled
-		{ get; set; }
-		
+		public static void WriteToGConf()
+		{
+			try {
+				
+				client.Set(intervalKey, Interval);
+				client.Set(scaleKey, ScalePercentage);
+				client.Set(playbackDelayKey, PlaybackDelay);
+				client.Set(savePathKey, SavePath);
+			} catch (Exception ex) {
+				Console.WriteLine ("Error in WriteToGConf(). " + ex.Message);
+			}
+		}
+
 		public static void Initialize ()
 		{
-			// Set the defaults
-			// TODO: change values back from debug versions
-			Console.WriteLine ("Initializing preferences");
-			Enabled = false;
-			ScalePercentage = 50;
-			Interval = 5000;
+			// Initialize the gconf listener.
+			client = new Client ();
+			
+			ReadFromGConf();
 		}
 	}
 }
