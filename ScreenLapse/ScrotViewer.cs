@@ -51,10 +51,19 @@ namespace ScreenLapse
 			CellRendererText textRenderer = new CellRendererText ();
 			dayColumn.PackStart (textRenderer, true);
 			dayColumn.AddAttribute (textRenderer, "text", 0);
+
 			
-			dayListStore = new ListStore (typeof(string));
+			
+			TreeViewColumn sizeColumn = new TreeViewColumn ();
+			sizeColumn.Title = "Size";
+			CellRendererText textRenderer2 = new CellRendererText ();
+			sizeColumn.PackStart (textRenderer2, true);
+			sizeColumn.AddAttribute (textRenderer2, "text", 1);
+			
+			dayListStore = new ListStore (typeof(string), typeof(string));
 			
 			dayAvailTreeView.AppendColumn (dayColumn);
+			dayAvailTreeView.AppendColumn (sizeColumn);
 			dayAvailTreeView.Model = dayListStore;
 			this.ResizeMode = ResizeMode.Immediate;
 			ExtractDayPaths ();
@@ -227,13 +236,10 @@ namespace ScreenLapse
 						// Don't process ahead
 					}
 					Log.Debug ("DateTime parsing worked! the date is " + dirDate.ToString());
-					dayListStore.AppendValues (dirDate.ToShortDateString ());
-					
-					validDirectories.Add (directoryName);
 					
 					
 					// Calculate the file sizes
-					long directorysize;
+					long directorysize = 0;
 					foreach(string filename in Directory.GetFiles(dir))
 					{
 						try {
@@ -248,6 +254,11 @@ namespace ScreenLapse
 					Log.Debug ("Found total directory size as " + directorysize.ToString());
 					dirSizes.Add(directorysize);
 					
+					double dirSizeInMb = (double)directorysize / (1024 * 1024);
+					
+					dayListStore.AppendValues (dirDate.ToShortDateString (), dirSizeInMb.ToString());
+					
+					validDirectories.Add (directoryName);
 				}
 			}
 		}
