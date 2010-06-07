@@ -122,16 +122,16 @@ namespace ScreenLapse
 				//Gtk.MessageDialog error = new Gtk.MessageDialog(null, null, MessageType.Error, ButtonsType.Ok, false, "xprintidle is missing");
 				
 				// gracefully exit
-				Console.WriteLine ("Unable to parse");
+				Log.Error("Unable to parse xprintidle output");
 				throw new InvalidDataException("Unable to parse xprintidle output");
 			}
 			
-			Console.WriteLine ("idletime is {0}", idleTime);
+			Log.Debug ("Idletime is " + idleTime.ToString());
 			
 			if(idleTime > Preferences.Interval + 1000)
 			{
 				// ignore. idle
-				Console.WriteLine ("Ignoring because of idleness");
+				Log.Debug ("Ignoring because of idleness");
 				return;
 			}
 			
@@ -160,13 +160,13 @@ namespace ScreenLapse
 					}
 				}
 				
-				Console.WriteLine (filePath);
+				Log.Debug ("Saving to path - " + filePath);
 				
 				// Take the screenshot			
 				int screenWidth = Gdk.Screen.Default.Width;
 				int screenHeight = Gdk.Screen.Default.Height;
 				
-				Console.WriteLine ("Scroting for {0}x{1}", screenWidth, screenHeight);
+				Log.Debug(String.Format ("Scroting for {0}x{1}", screenWidth, screenHeight));
 				
 				Bitmap bmpScreenShot = new Bitmap (screenWidth, screenHeight);
 				Graphics gfx = Graphics.FromImage ((System.Drawing.Image)bmpScreenShot);
@@ -176,7 +176,7 @@ namespace ScreenLapse
 				int thumbWidth = (int)((double)screenWidth * ((double)Preferences.ScalePercentage / (double)100));
 				int thumbHeight = (int)((double)screenHeight * ((double)Preferences.ScalePercentage / (double)100));
 				
-				Console.WriteLine ("Scroting for {0}x{1}", thumbWidth, thumbHeight);
+				Log.Debug ("Saving to disk");
 				System.Drawing.Image thumb = bmpScreenShot.GetThumbnailImage (thumbWidth, thumbHeight, null, IntPtr.Zero);
 				thumb.Save (filePath, ImageFormat.Png);
 				
@@ -186,7 +186,7 @@ namespace ScreenLapse
 				thumb.Dispose ();
 			}
 			else {
-				Console.WriteLine ("Dry run!");
+				Log.Debug ("Screenlapse not enabled");
 			}
 		}
 	}

@@ -119,7 +119,7 @@ namespace ScreenLapse
 						DrawImageInWindow(filename);
 					}
 				} catch (Exception ex) {
-					Console.WriteLine ("Something broke with exception: " + ex.Message);
+					Log.Error("Something broke with the exception - " + ex.Message);
 					return;
 				}
 			}
@@ -143,7 +143,7 @@ namespace ScreenLapse
 		{
 			// Create the new image widget and draw it being hidden
 			try {
-				Console.WriteLine ("Drawing image inside window");
+				Log.Debug("Drawing image now");
 				Gtk.Image drawTarget = new Gtk.Image(filename);
 				drawTarget.Hide();
 				
@@ -157,7 +157,7 @@ namespace ScreenLapse
 				hbox3.PackStart(drawTarget, true, true, 0);
 				
 			} catch (Exception ex) {
-				Console.WriteLine ("something went wrong. " + ex.Message);
+				Log.Error("Something broke in DrawImageInWindow - " + ex.Message);
 			}	
 			
 		}
@@ -174,12 +174,11 @@ namespace ScreenLapse
 			
 			// Iterate over all the files in currentDayPath
 			foreach (string filename in Directory.GetFiles (currentDayPath)) {
-				Console.WriteLine (filename);
 				if (System.IO.Path.GetExtension (filename) == ".png" && System.IO.Path.GetFileNameWithoutExtension (filename).Length == 6) {
 					currentFileNames.Add (System.IO.Path.GetFullPath(filename));
 				}
 			}
-			Console.WriteLine ("The count of currentfilenames is: " + currentFileNames.Count.ToString ());
+			Log.Debug ("The count of currentFileNames is - " + currentFileNames.Count.ToString());
 			// set up the slider
 			if (currentFileNames.Count != 0) {
 				timeSlider.SetRange (0, currentFileNames.Count);
@@ -214,20 +213,18 @@ namespace ScreenLapse
 				
 				
 				string directoryName = pathPieces[pathPieces.Length - 1];
-				Console.WriteLine ("The extracted name is:" + directoryName);
 				if (directoryName.Length == 10) {
-					Console.WriteLine ("Directory: " + directoryName);
 					string dirTrimmed = directoryName;
 					DateTime dirDate;
-					Console.WriteLine ("The final dir is:" + dirTrimmed);
+					Log.Debug ("Found a potentially valid directory - " + dirTrimmed);
 					try {
 						dirDate = DateTime.Parse (dirTrimmed);
 					} catch {
-						Console.WriteLine ("Datetime parsing failed");
+						Log.Debug ("DateTime parsing failed, not a valid directory");
 						continue;
 						// Don't process ahead
 					}
-					Console.WriteLine ("The date is {0}", dirDate.ToString ());
+					Log.Debug ("DateTime parsing worked! the date is " + dirDate.ToString());
 					dayListStore.AppendValues (dirDate.ToShortDateString ());
 					
 					validDirectories.Add (directoryName);

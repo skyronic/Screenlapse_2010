@@ -59,13 +59,14 @@ namespace ScreenLapse
 				ScalePercentage = (int)client.Get (scaleKey);
 				PlaybackDelay = (int)client.Get (playbackDelayKey);
 				SavePath = (string)client.Get (savePathKey);
+				
 				return;
 			} catch (GConf.NoSuchKeyException e) {
-				Console.WriteLine ("Error: A key with that name doesn't exist.");
+				Log.Error("Error: A key with that name doesn't exist.");
 			} catch (System.InvalidCastException e) {
-				Console.WriteLine ("Error: Cannot typecast.");
+				Log.Error("Error: Cannot typecast.");
 			} catch (Exception ex) {
-				Console.WriteLine ("Some other error. " + ex.Message);
+				Log.Error("Some other error - " + ex.Message);
 			}
 				Enabled = false;
 				ScalePercentage = 50;
@@ -84,7 +85,7 @@ namespace ScreenLapse
 				client.Set(playbackDelayKey, PlaybackDelay);
 				client.Set(savePathKey, SavePath);
 			} catch (Exception ex) {
-				Console.WriteLine ("Error in WriteToGConf(). " + ex.Message);
+				Log.Error("Error in writeToConf" + ex.Message);
 			}
 		}
 

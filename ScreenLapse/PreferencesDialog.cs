@@ -19,14 +19,13 @@ namespace ScreenLapse
 		}
 		protected virtual void ClosePref (object sender, System.EventArgs e)
 		{
-			Console.WriteLine ("Closing");
+			Log.Debug ("Closing preferences");
 			this.Hide();
 			this.Destroy();
 		}
 		
 		protected virtual void SavePrefAndClose (object sender, System.EventArgs e)
 		{
-			Console.WriteLine ("Saving preferences");
 			//Preferences.SavePath = filechooserbutton2.CurrentFolder;
 			Preferences.Interval = (int)spinbutton1.Value;
 			Preferences.ScalePercentage = (int)spinbutton2.Value;
