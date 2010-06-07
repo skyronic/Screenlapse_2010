@@ -43,6 +43,7 @@ namespace ScreenLapse
 			// Initialize members
 			
 			validDirectories = new List<string> ();
+			dirSizes = new List<long>();
 			this.Build ();
 			// Build the treeview
 			TreeViewColumn dayColumn = new TreeViewColumn ();
@@ -196,6 +197,7 @@ namespace ScreenLapse
 		ListStore dayListStore;
 
 		List<string> validDirectories;
+		List<long> dirSizes;
 		string currentDayPath;
 
 		/// <summary>
@@ -228,6 +230,24 @@ namespace ScreenLapse
 					dayListStore.AppendValues (dirDate.ToShortDateString ());
 					
 					validDirectories.Add (directoryName);
+					
+					
+					// Calculate the file sizes
+					long directorysize;
+					foreach(string filename in Directory.GetFiles(dir))
+					{
+						try {
+							string filepath = System.IO.Path.Combine(dir, filename);
+							
+							FileInfo target = new FileInfo(filepath);
+							directorysize += target.Length;
+						} catch (Exception ex) {
+							Log.Error("Exception while trying to find the file sizes " + ex.Message);
+						}
+					}
+					Log.Debug ("Found total directory size as " + directorysize.ToString());
+					dirSizes.Add(directorysize);
+					
 				}
 			}
 		}
