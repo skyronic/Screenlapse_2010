@@ -360,6 +360,7 @@
                         <property name="Icon">stock:gtk-delete Menu</property>
                         <property name="Label" translatable="yes">Delete Day</property>
                         <property name="UseUnderline">True</property>
+                        <signal name="Clicked" handler="DeleteDayClicked" />
                       </widget>
                       <packing>
                         <property name="Position">0</property>

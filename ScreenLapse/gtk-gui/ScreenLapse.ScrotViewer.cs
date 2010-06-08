@@ -158,6 +158,7 @@ namespace ScreenLapse
 			this.DefaultWidth = 785;
 			this.DefaultHeight = 582;
 			this.Show ();
+			this.button5.Clicked += new global::System.EventHandler (this.DeleteDayClicked);
 		}
 	}
 }

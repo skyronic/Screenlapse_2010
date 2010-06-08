@@ -227,7 +227,6 @@ namespace ScreenLapse
 				if (directoryName.Length == 10) {
 					string dirTrimmed = directoryName;
 					DateTime dirDate;
-					Log.Debug ("Found a potentially valid directory - " + dirTrimmed);
 					try {
 						dirDate = DateTime.Parse (dirTrimmed);
 					} catch {
@@ -243,7 +242,6 @@ namespace ScreenLapse
 					foreach(string filename in Directory.GetFiles(dir))
 					{
 						try {
-							Log.Debug ("Getting size of filename: " + filename);
 							string filepath = System.IO.Path.Combine(dir, filename);
 							
 							FileInfo target = new FileInfo(filepath);
@@ -265,6 +263,36 @@ namespace ScreenLapse
 				}
 			}
 		}
+		protected virtual void DeleteDayClicked (object sender, System.EventArgs e)
+		{
+			TreePath[] selectedItems = dayAvailTreeView.Selection.GetSelectedRows();
+			
+			// Delete each of the selected items
+			foreach(TreePath selection in selectedItems)
+			{
+				TreeIter iter = new TreeIter();
+				dayListStore.GetIter(out iter, selection);
+				
+				// Get the value
+				string dayName = (string)dayListStore.GetValue(iter, 0);
+				
+				// Parse dayname to extract date
+				DateTime target = DateTime.Now;
+				try {
+				target = DateTime.Parse(dayName);
+				} catch (Exception ex) {
+					Log.Error("Exception while parsing date while deleting day " + ex.Message);
+					return;
+				}
+				
+				string targetDir = System.IO.Path.Combine(Preferences.SavePath, target.ToString ("MM-dd-yyyy"));
+				Log.Debug ("Will delete " + targetDir);
+				
+				Directory.Delete(targetDir, true);
+			}
+		}
+		
+		
 	}
 	
 }
