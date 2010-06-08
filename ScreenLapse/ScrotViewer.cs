@@ -288,11 +288,25 @@ namespace ScreenLapse
 				string targetDir = System.IO.Path.Combine(Preferences.SavePath, target.ToString ("MM-dd-yyyy"));
 				Log.Debug ("Will delete " + targetDir);
 				
+				try {
 				Directory.Delete(targetDir, true);
+				} catch (Exception ex) {
+					Log.Error("Failed to delete directory " + ex.Message);
+					return;
+				}
+				
+				// Find the index that was clicked on
+				int index = selection.Indices[0];
+				
+				// delete the apropriate directory path and the size
+				validDirectories.RemoveAt(index);
+				dirSizes.RemoveAt(index);
+				
+				// remove the directory's row in the treeview
+				dayListStore.Remove(ref iter);
+				Log.Debug ("Finished with the delete procedure");
 			}
 		}
-		
-		
 	}
 	
 }
