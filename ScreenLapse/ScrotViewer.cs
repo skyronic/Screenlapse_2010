@@ -243,6 +243,7 @@ namespace ScreenLapse
 					foreach(string filename in Directory.GetFiles(dir))
 					{
 						try {
+							Log.Debug ("Getting size of filename: " + filename);
 							string filepath = System.IO.Path.Combine(dir, filename);
 							
 							FileInfo target = new FileInfo(filepath);
@@ -256,7 +257,9 @@ namespace ScreenLapse
 					
 					double dirSizeInMb = (double)directorysize / (1024 * 1024);
 					
-					dayListStore.AppendValues (dirDate.ToShortDateString (), dirSizeInMb.ToString());
+					dayListStore.AppendValues (dirDate.ToShortDateString (), dirSizeInMb.ToString().Substring(0, 5) + "Mb");
+					//Log.Debug (dirSizeInMb.ToString());
+						
 					
 					validDirectories.Add (directoryName);
 				}
