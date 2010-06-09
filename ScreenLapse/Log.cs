@@ -36,10 +36,7 @@ namespace ScreenLapse
 		/// </param>
 		private static void Emit(ConsoleColor color, string level, string input)
 		{
-			ConsoleColor backup = Console.ForegroundColor;
-			Console.ForegroundColor = color;
-			Console.WriteLine (String.Format("[{0}] {1}", level, input));
-			Console.ForegroundColor = backup;
+			Console.WriteLine (String.Format("[{0}][THREAD:{1}] {2}", level, System.Threading.Thread.CurrentThread.ManagedThreadId ,input));
 		}
 		
 		public static void Debug(string input)

@@ -50,6 +50,8 @@ namespace ScreenLapse
 		/// Property to check whether screenshots can be taken
 		/// 
 		/// use Activate() and Deactivate() to modify behaviour
+		/// <c>
+		/// </c>
 		/// </summary>
 		public bool IsActive { get; private set; }
 
@@ -60,6 +62,7 @@ namespace ScreenLapse
 		{
 			IsActive = true;
 			timer.Enabled = true;
+			Preferences.Enabled = true;
 		}
 		
 		/// <summary>
@@ -69,17 +72,18 @@ namespace ScreenLapse
 		{
 			IsActive = false;
 			timer.Enabled = false;
+			Preferences.Enabled = false;
 		}
 
 		private ScrotDaemon ()
 		{
 			timer = new System.Timers.Timer ();
-			timer.Enabled = false;
 			timer.Elapsed += OnTimerTick;
 			
 			timer.Interval = Preferences.Interval;
 			
 			GC.KeepAlive (timer);
+			Deactivate();
 		}
 		
 

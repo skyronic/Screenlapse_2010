@@ -29,8 +29,14 @@ namespace ScreenLapse
 				trayIcon.Visible = true;
 				trayIcon.Activate += delegate(object sender, EventArgs e) {
 					// Toggle the visibility of the main window
-					win.Visible = !win.Visible;
-					win.QueueDraw();
+					if(win.Visible)
+					{
+						win.HideAll();
+					}
+					else
+					{
+						win.ShowAll();
+					}
 				};
 				trayIcon.PopupMenu += HandleTrayIconPopupMenu;
 				trayIcon.Tooltip = "ScreenLapse";
@@ -80,7 +86,12 @@ namespace ScreenLapse
 
 		static void HandleMenuItemEnabledActivated (object sender, EventArgs e)
 		{
-			Preferences.Enabled = !Preferences.Enabled;
+			if(Preferences.Enabled)
+			{
+				ScrotDaemon.Instance.Deactivate();
+			}
+			else
+				ScrotDaemon.Instance.Activate();
 		}
 	}
 }

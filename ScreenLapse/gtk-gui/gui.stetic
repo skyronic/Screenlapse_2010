@@ -15,7 +15,7 @@
       </source>
     </icon-set>
   </icon-factory>
-  <widget class="Gtk.Window" id="ScreenLapse.MainWindow" design-size="400 300">
+  <widget class="Gtk.Window" id="ScreenLapse.MainWindow" design-size="400 171">
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -59,8 +59,9 @@
           <widget class="Gtk.Button" id="button56">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="Type">TextOnly</property>
-            <property name="Label" translatable="yes">GtkButton</property>
+            <property name="Type">TextAndIcon</property>
+            <property name="Icon">stock:gtk-media-record Menu</property>
+            <property name="Label" translatable="yes">Start Recording</property>
             <property name="UseUnderline">True</property>
           </widget>
           <packing>

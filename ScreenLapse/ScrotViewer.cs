@@ -79,22 +79,50 @@ namespace ScreenLapse
 			playTimer = new System.Timers.Timer();
 			playTimer.Interval = Preferences.PlaybackDelay;
 			
-			playTimer.Elapsed += ImageFrameChangeTimerTick;
+			//playTimer.Elapsed += ImageFrameChangeTimerTick;
+			currentlyPlaying = false;
 		}
 
+		/// <summary>
+		/// Increase the timeslider range's value by 1 automatically invoking
+		/// the same handler which will redraw the image on screen 
+		/// 
+		/// DEPRECATED
+		/// </summary>
+		/// <param name="sender">
+		/// A <see cref="System.Object"/>
+		/// </param>
+		/// <param name="e">
+		/// A <see cref="System.Timers.ElapsedEventArgs"/>
+		/// </param>
 		void ImageFrameChangeTimerTick (object sender, System.Timers.ElapsedEventArgs e)
 		{
 			timeSlider.Value += 1;
 		}
+		
+		/// <summary>
+		/// See ImageFrameChangeTimerTick
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Boolean"/> which will specify the glib continuation
+		/// </returns>
+		bool IncrementTick()
+		{
+			timeSlider.Value += 1;
+			
+			return currentlyPlaying; // if this is true, then it will automatically continue
+		}
 
+		bool currentlyPlaying = false;
 		void StartPlayPause (object sender, EventArgs e)
 		{
-			if(playTimer.Enabled)
+			if(currentlyPlaying)
+				currentlyPlaying = false;
+			else
 			{
-				playTimer.Stop();
-			}
-			else {
-				playTimer.Start();
+				currentlyPlaying = true;
+				// Start the glib timeout
+				GLib.Timeout.Add((uint)Preferences.PlaybackDelay, IncrementTick);
 			}
 		}
 		bool ImageArmed;
