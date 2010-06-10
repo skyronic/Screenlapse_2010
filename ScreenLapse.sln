@@ -16,5 +16,6 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = ScreenLapse\ScreenLapse.csproj
+		outputpath = bin
 	EndGlobalSection
 EndGlobal

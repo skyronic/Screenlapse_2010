@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+include /usr/share/cli-common/cli.make
+
+override_dh_auto_build:
+	xbuild $(CURDIR)/Screenlapse.sln
+
+override_dh_auto_install:
+	install -D -m0755 $(CURDIR)/debian/screenlapse.sh $(CURDIR)/debian/screenlapse/usr/bin/screenlapse
+
+override_dh_auto_clean:
+	find $(CURDIR) -type d -name bin -empty -exec rm -rf {} \;
+	find $(CURDIR) -type d -name obj -empty -exec rm -rf {} \;
+
+%:
+	dh $@

@@ -1,0 +1,17 @@
+Source: screenlapse
+Section: cli-mono
+Priority: optional
+Maintainer: Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
+Uploaders: Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
+Build-Depends: debhelper, cli-common-dev (>= 0.5.7), mono-xbuild (>= 2.4.2), libgtk2.0-cil, libglib2.0-cil, mono-devel
+Standards-Version: 3.8.4
+Homepage: http://ninjagod.com/screenlapse
+Vcs-Git: git://github.com/ninjagod/Screenlapse.git
+Vcs-Browser: http://github.com/ninjagod/Screenlapse
+Package: screenlapse
+Architecture: all
+Depends: ${cli:Depends}, ${misc:Depends}, libgconf2.0-cil, libgconf2.0-cil-dev, xprintidle
+Description: Desktop time tracking tool for GNOME
+ Screenlapse records your screen at regular intervals of time
+ and creates a time lapse movie at the end of the day to review
+ what your time was spent on.

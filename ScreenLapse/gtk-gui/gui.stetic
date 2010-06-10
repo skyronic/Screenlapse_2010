@@ -5,8 +5,7 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <widget-library name="../bin/Debug/ScreenLapse.exe" internal="true" />
+    <widget-library name="../bin/ScreenLapse.exe" internal="true" />
   </import>
   <icon-factory>
     <icon-set id="Screenlapse">
@@ -17,7 +16,7 @@
   </icon-factory>
   <widget class="Gtk.Window" id="ScreenLapse.MainWindow" design-size="400 171">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">MainWindow</property>
+    <property name="Title" translatable="yes">Screenlapse</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
@@ -63,6 +62,7 @@
             <property name="Icon">stock:gtk-media-record Menu</property>
             <property name="Label" translatable="yes">Start Recording</property>
             <property name="UseUnderline">True</property>
+            <signal name="Clicked" handler="StartRecordingButton" />
           </widget>
           <packing>
             <property name="Position">2</property>

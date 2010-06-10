@@ -27,5 +27,12 @@ public partial class MainWindow : Gtk.Window
 			prefWindow.ShowAll();
 	}
 	
+	protected virtual void StartRecordingButton (object sender, System.EventArgs e)
+	{
+			ScrotDaemon.Instance.Activate();
+			this.HideAll();
+	}
+	
+	
 }
 }

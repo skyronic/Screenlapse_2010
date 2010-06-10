@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Screenlapse
+Comment=Create time lapse views of your desktop
+GenericName=Time lapse video creator
+Exec=screenlapse
+Icon=screenlapse
+StartupNotify=false
+Terminal=false
+Type=Application
+Categories=Accessories 
