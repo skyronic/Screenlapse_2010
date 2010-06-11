@@ -1,9 +1,9 @@
 Source: screenlapse
 Section: cli-mono
 Priority: optional
-Maintainer: Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
-Uploaders: Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
-Build-Depends: debhelper, cli-common-dev (>= 0.5.7), mono-xbuild (>= 2.4.2), libgtk2.0-cil, libglib2.0-cil, mono-devel
+Maintainer: Anirudh Sanjeev <a@ninjagod.com>
+Uploaders: Anirudh Sanjeev <a@ninjagod.com>
+Build-Depends: debhelper, cli-common-dev, libgtk2.0-cil, libglib2.0-cil, mono-devel, libgconf2.0-cil, libgconf2.0-cil-dev, libmono-microsoft-build2.0-cil
 Standards-Version: 3.8.4
 Homepage: http://ninjagod.com/screenlapse
 Vcs-Git: git://github.com/ninjagod/Screenlapse.git

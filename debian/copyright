@@ -1,8 +1,8 @@
 Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?rev=135&sc=0
 Name: screenlapse
-Maintainer: Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
+Maintainer: Anirudh Sanjeev <a@ninjagod.com>
 Upstream-Source: http://ninjagod.com/screenlapse
 
 Files: *
-Copyright: 2010, Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
+Copyright: 2010, Anirudh Sanjeev <a@ninjagod.com>
 License: MIT
